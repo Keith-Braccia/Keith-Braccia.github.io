@@ -15,72 +15,67 @@
     color: #e8f6ff; min-height: 100vh;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     display: flex; flex-direction: column; align-items: center; justify-content: center;
-    text-align: center; padding: 36px 24px; gap: 14px;
+    text-align: center; padding: 36px 24px; gap: 12px;
   }
   h1 { font-size: 34px; font-weight: 800; letter-spacing: .06em; text-shadow: 0 0 34px rgba(232,246,255,.5); }
   .sub { font-size: 12px; font-weight: 600; letter-spacing: .42em; color: #28e0ff;
          text-indent: .42em; margin-top: -6px; }
-  .card { width: 100%; max-width: 340px; margin-top: 20px; padding: 20px;
-    border: 1px solid rgba(40,224,255,.35); border-radius: 16px; background: rgba(40,224,255,.07); }
-  .card h2 { font-size: 14px; letter-spacing: .14em; text-transform: uppercase; color: #28e0ff; margin-bottom: 12px; }
-  .card p { font-size: 15px; line-height: 1.75; }
-  .card b { color: #fff; }
-  .btn { display: block; width: 100%; max-width: 340px; margin-top: 12px; padding: 17px 24px;
-    border-radius: 13px; text-decoration: none; font-size: 16px; font-weight: 700;
-    border: 1px solid rgba(255,255,255,.22); background: rgba(255,255,255,.06); color: #e8f6ff; }
-  .btn.go { border-color: rgba(40,224,255,.6); background: rgba(40,224,255,.14);
-            box-shadow: 0 0 24px rgba(40,224,255,.22); }
+  .tag { font-size: 14px; opacity: .7; line-height: 1.6; max-width: 320px; margin-top: 6px; }
+  .btn { display: block; width: 100%; max-width: 340px; margin-top: 14px; padding: 18px 24px;
+    border-radius: 13px; text-decoration: none; font-size: 17px; font-weight: 700;
+    border: 1px solid rgba(40,224,255,.6); background: rgba(40,224,255,.14);
+    color: #e8f6ff; box-shadow: 0 0 24px rgba(40,224,255,.22); }
+  .btn.alt { border-color: rgba(255,255,255,.22); background: rgba(255,255,255,.06);
+             box-shadow: none; font-size: 15px; font-weight: 600; }
   .btn:active { opacity: .7; }
-  .or { font-size: 11px; letter-spacing: .2em; text-transform: uppercase; opacity: .4; margin-top: 16px; }
-  .note { font-size: 12px; opacity: .4; margin-top: 8px; max-width: 300px; line-height: 1.6; }
+  .card { width: 100%; max-width: 340px; margin-top: 18px; padding: 16px 18px;
+    border: 1px solid rgba(255,255,255,.14); border-radius: 14px; background: rgba(255,255,255,.04); }
+  .card p { font-size: 13px; line-height: 1.75; opacity: .75; }
+  .card b { color: #28e0ff; opacity: 1; }
+  .note { font-size: 12px; opacity: .4; margin-top: 12px; max-width: 300px; line-height: 1.6; }
+  .note b { color: #fff; opacity: .8; }
 </style>
 </head>
 <body>
   <h1>GRAZE</h1>
   <div class="sub">EDGE RUSH</div>
+  <p class="tag">Score by almost dying. Free, no in-app purchases.</p>
+
+  <!-- Real user tap on the full (non-shortened) App Store URL. target=_blank
+       asks the in-app browser to hand off externally. -->
+  <a class="btn" id="primary"
+     href="https://apps.apple.com/app/id6785326186"
+     target="_blank" rel="noopener">Download on the App Store</a>
+
+  <button class="btn alt" id="copy">Copy the link</button>
 
   <div class="card" id="card" style="display:none">
-    <h2>One quick step</h2>
-    <p>Tap <b>&#8943;</b> at the top right, then <b>&ldquo;Open in external browser&rdquo;</b>.<br>
-       Instagram blocks App Store links inside its own browser.</p>
+    <p>Still nothing? Tap <b>&#8943;</b> top right &rarr; <b>Open in external browser</b>.</p>
   </div>
 
-  <a class="btn go" id="primary" href="https://apps.apple.com/app/id6785326186">Open in the App Store</a>
-  <button class="btn" id="copy">Copy the link</button>
-
-  <div class="or">or</div>
-  <p class="note">Search <b>GRAZE Edge Rush</b> in the App Store app. It's free.</p>
+  <p class="note">or search <b>GRAZE Edge Rush</b> in the App Store</p>
 
 <script>
 (function () {
-  var ID = "6785326186";
-  var HTTPS = "https://apps.apple.com/app/id" + ID;
+  var HTTPS = "https://apps.apple.com/app/id6785326186";
   var ua = navigator.userAgent || "";
-  var isIOS = /iPhone|iPad|iPod/i.test(ua);
   var isInApp = /Instagram|FBAN|FBAV|FB_IAB|FBIOS|TikTok|Snapchat|Line\//i.test(ua);
 
+  // Only show the escape instructions where they're actually needed, and never
+  // auto-navigate inside an in-app browser — that's what caused the blank page
+  // and wiped out the buttons before they could be tapped.
   if (isInApp) {
-    // Meta's webview sandboxes custom URL schemes, so the only dependable path
-    // is getting the user out of it. Lead with that instruction instead of
-    // auto-navigating, which just lands them on a blank App Store page.
     document.getElementById("card").style.display = "block";
-  } else if (isIOS) {
-    setTimeout(function () { window.location.href = HTTPS; }, 300);
   } else {
-    setTimeout(function () { window.location.href = HTTPS; }, 500);
+    setTimeout(function () { window.location.href = HTTPS; }, 300);
   }
 
   document.getElementById("copy").addEventListener("click", function () {
-    var btn = this;
-    var done = function () { btn.textContent = "Link copied ✓"; setTimeout(function(){ btn.textContent = "Copy the link"; }, 2000); };
-    if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(HTTPS).then(done, done);
-    } else {
-      var t = document.createElement("textarea");
-      t.value = HTTPS; document.body.appendChild(t); t.select();
-      try { document.execCommand("copy"); } catch (e) {}
-      document.body.removeChild(t); done();
-    }
+    var b = this;
+    var done = function () { b.textContent = "Link copied ✓"; setTimeout(function(){ b.textContent = "Copy the link"; }, 2000); };
+    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(HTTPS).then(done, done);
+    else { var t=document.createElement("textarea"); t.value=HTTPS; document.body.appendChild(t); t.select();
+           try{document.execCommand("copy");}catch(e){} document.body.removeChild(t); done(); }
   });
 })();
 </script>
