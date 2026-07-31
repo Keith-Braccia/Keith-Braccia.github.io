@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GRAZE: Edge Rush — Free on the App Store</title>
+
+<!-- Safari shows a native App Store banner from this. Harmless elsewhere. -->
+<meta name="apple-itunes-app" content="app-id=6785326186">
+
+<!-- Link preview when shared -->
+<meta property="og:title" content="GRAZE: Edge Rush">
+<meta property="og:description" content="Score by almost dying. One tap arcade game. Free on the App Store.">
+<meta property="og:type" content="website">
+
+<style>
+  :root { color-scheme: dark; }
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+  html, body { height: 100%; }
+  body {
+    background: radial-gradient(120% 90% at 50% 0%, #06141c 0%, #02080c 60%, #01050a 100%);
+    color: #e8f6ff;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    text-align: center; padding: 32px 24px; gap: 18px;
+  }
+  h1 { font-size: 34px; font-weight: 800; letter-spacing: .06em;
+       text-shadow: 0 0 34px rgba(232,246,255,.55); }
+  .sub { font-size: 13px; font-weight: 600; letter-spacing: .42em; color: #28e0ff;
+         text-indent: .42em; text-shadow: 0 0 18px rgba(40,224,255,.5); margin-top: -4px; }
+  p.tag { font-size: 14px; opacity: .7; line-height: 1.6; max-width: 320px; margin-top: 6px; }
+  a.cta {
+    display: inline-block; margin-top: 14px; padding: 16px 30px;
+    border: 1px solid rgba(40,224,255,.55); border-radius: 12px;
+    background: rgba(40,224,255,.1); color: #e8f6ff; text-decoration: none;
+    font-size: 16px; font-weight: 700; letter-spacing: .06em;
+    box-shadow: 0 0 26px rgba(40,224,255,.28);
+  }
+  a.cta:active { background: rgba(40,224,255,.2); }
+  .hint { font-size: 12px; opacity: .45; line-height: 1.7; max-width: 300px; margin-top: 10px; }
+  .free { font-size: 12px; letter-spacing: .2em; text-transform: uppercase; opacity: .55; }
+</style>
+</head>
+<body>
+  <h1>GRAZE</h1>
+  <div class="sub">EDGE RUSH</div>
+  <p class="tag">Score by almost dying. The closer you graze, the higher your score.</p>
+  <div class="free">Free · No in-app purchases</div>
+
+  <a class="cta" id="cta" href="https://apps.apple.com/app/id6785326186">Open in the App Store</a>
+
+  <p class="hint" id="hint">
+    If nothing opens, tap the &#8943; menu in the corner and choose
+    &ldquo;Open in Safari&rdquo;.
+  </p>
+
+<script>
+(function () {
+  var APP_ID   = "6785326186";
+  var HTTPS_URL = "https://apps.apple.com/app/id" + APP_ID;
+  // itms-apps:// hands off to the native App Store app. In-app browsers like
+  // Instagram's often render the https App Store page as a blank screen, but
+  // they will still honour this scheme and jump straight out to the App Store.
+  var APP_URL   = "itms-apps://apps.apple.com/app/id" + APP_ID;
+
+  var ua = navigator.userAgent || "";
+  var isIOS = /iPhone|iPad|iPod/i.test(ua);
+
+  // Point the visible button at the scheme that actually works on this device.
+  var cta = document.getElementById("cta");
+  if (isIOS) cta.href = APP_URL;
+
+  // Auto-attempt the handoff on iOS. Falls back to the normal store URL if the
+  // scheme is not handled (desktop, Android, or a browser that blocks it).
+  if (isIOS) {
+    setTimeout(function () { window.location.href = APP_URL; }, 60);
+    setTimeout(function () {
+      // Still here? The scheme did not take. Try the regular URL as a backup.
+      if (!document.hidden) window.location.href = HTTPS_URL;
+    }, 1400);
+  } else {
+    document.getElementById("hint").textContent =
+      "Opening the App Store… (GRAZE is an iPhone game)";
+    setTimeout(function () { window.location.href = HTTPS_URL; }, 400);
+  }
+})();
+</script>
+</body>
+</html>
