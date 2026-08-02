@@ -35,11 +35,24 @@
   .note { font-size: 15px; color: #fff; opacity: .95; margin-top: 10px; max-width: 320px;
           line-height: 1.7; font-weight: 500; }
   .note b { color: #28e0ff; font-weight: 700; letter-spacing: .02em; }
+  .award { margin: 16px auto 22px; text-align: center; }
+.award img { max-width: 100%; height: auto; display: inline-block; }
+.awardText {
+  margin: 0; color: #ffd479; letter-spacing: .02em;
+  font: 600 15px/1.4 -apple-system, system-ui, sans-serif;
+}
 </style>
 </head>
 <body>
   <h1>GRAZE</h1>
   <div class="sub">EDGE RUSH</div>
+  <!-- PixelPicked #1 Launch Week -->
+<div class="award">
+  <img src="https://api.pixelpicked.com/api/badges/3aPZlUnoF71/rank/1/live.png?week=July+Week+4"
+       width="250" height="54"
+       alt="#1 Game Launch of the Week, PixelPicked"
+       onerror="this.replaceWith(Object.assign(document.createElement('p'),{className:'awardText',textContent:'#1 Game Launch of the Week · PixelPicked'}))">
+</div>
 
   <div class="card" id="card" style="display:none">
     <h2>One quick step</h2>
