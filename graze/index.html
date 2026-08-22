@@ -14,79 +14,157 @@
     background: radial-gradient(120% 90% at 50% 0%, #06141c 0%, #02080c 60%, #01050a 100%);
     color: #e8f6ff; min-height: 100vh;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    display: flex; flex-direction: column; align-items: center; justify-content: center;
-    text-align: center; padding: 36px 24px; gap: 14px;
+    display: flex; flex-direction: column; align-items: center;
+    text-align: center; padding: 20px 24px 40px; gap: 14px;
   }
+
+  /* ---- the in-app browser instruction -------------------------------- */
+  /* This is the whole point of the page for anyone arriving from TikTok or
+     Instagram, so it sits above everything else and is impossible to miss. */
+  #steps { display: none; width: 100%; max-width: 340px; }
+  body.inapp #steps { display: block; }
+  /* Dim the wordmark behind the instruction, but never the award: it is
+     third-party proof and it is what verifies the page on PixelPicked. */
+  body.inapp #hero h1, body.inapp #hero .sub { opacity: .5; transform: scale(.92); }
+  body.inapp #hero { gap: 0; }
+
+  .arrow {
+    display: flex; justify-content: flex-end; align-items: center; gap: 8px;
+    font-size: 13px; letter-spacing: .12em; text-transform: uppercase;
+    color: #ffd479; font-weight: 700; padding-right: 4px; margin-bottom: 10px;
+  }
+  .arrow span { font-size: 26px; line-height: 1; transform: translateY(-2px); }
+  @media (prefers-reduced-motion: no-preference) {
+    .arrow span { animation: nudge 1.4s ease-in-out infinite; }
+    @keyframes nudge { 0%,100% { transform: translateY(-2px); } 50% { transform: translateY(-9px); } }
+  }
+
+  .steps {
+    border: 1px solid rgba(255,212,121,.45); border-radius: 18px;
+    background: rgba(255,212,121,.09); padding: 20px 20px 18px; text-align: left;
+  }
+  .steps h2 {
+    font-size: 13px; letter-spacing: .16em; text-transform: uppercase;
+    color: #ffd479; margin-bottom: 4px;
+  }
+  .steps .why { font-size: 13px; line-height: 1.6; opacity: .72; margin-bottom: 16px; }
+  .steps ol { list-style: none; display: flex; flex-direction: column; gap: 13px; }
+  .steps li { display: flex; gap: 12px; align-items: flex-start; font-size: 16px; line-height: 1.5; }
+  .num {
+    flex: none; width: 25px; height: 25px; border-radius: 50%;
+    background: #ffd479; color: #2a1b00; font-size: 13px; font-weight: 800;
+    display: flex; align-items: center; justify-content: center; margin-top: 1px;
+  }
+  .dots {
+    display: inline-block; padding: 1px 9px; border-radius: 7px;
+    background: rgba(255,255,255,.20); color: #fff; font-weight: 800;
+    letter-spacing: 2px; vertical-align: middle; line-height: 1.5;
+  }
+  .steps b { color: #fff; }
+  .steps .after { font-size: 14px; line-height: 1.6; opacity: .78; margin-top: 14px;
+                  padding-top: 13px; border-top: 1px solid rgba(255,212,121,.22); }
+
+  /* ---- everything else ----------------------------------------------- */
+  #hero { display: flex; flex-direction: column; align-items: center; gap: 4px; transition: opacity .3s; }
   h1 { font-size: 34px; font-weight: 800; letter-spacing: .06em; text-shadow: 0 0 34px rgba(232,246,255,.5); }
-  .sub { font-size: 12px; font-weight: 600; letter-spacing: .42em; color: #28e0ff;
-         text-indent: .42em; margin-top: -6px; }
-  .card { width: 100%; max-width: 340px; margin-top: 20px; padding: 20px;
-    border: 1px solid rgba(40,224,255,.35); border-radius: 16px; background: rgba(40,224,255,.07); }
-  .card h2 { font-size: 14px; letter-spacing: .14em; text-transform: uppercase; color: #28e0ff; margin-bottom: 12px; }
-  .card p { font-size: 15px; line-height: 1.75; }
-  .card b { color: #fff; }
-  .btn { display: block; width: 100%; max-width: 340px; margin-top: 12px; padding: 17px 24px;
+  .sub { font-size: 12px; font-weight: 600; letter-spacing: .42em; color: #28e0ff; text-indent: .42em; }
+  .award { margin: 12px auto 4px; text-align: center; }
+  .award img { max-width: 100%; height: auto; display: inline-block; }
+  .awardText { margin: 0; color: #ffd479; letter-spacing: .02em;
+               font: 600 15px/1.4 -apple-system, system-ui, sans-serif; }
+
+  .btn { display: block; width: 100%; max-width: 340px; padding: 17px 24px;
     border-radius: 13px; text-decoration: none; font-size: 16px; font-weight: 700;
-    border: 1px solid rgba(255,255,255,.22); background: rgba(255,255,255,.06); color: #e8f6ff; }
+    border: 1px solid rgba(255,255,255,.22); background: rgba(255,255,255,.06); color: #e8f6ff;
+    font-family: inherit; cursor: pointer; }
   .btn.go { border-color: rgba(40,224,255,.6); background: rgba(40,224,255,.14);
             box-shadow: 0 0 24px rgba(40,224,255,.22); }
   .btn:active { opacity: .7; }
-  .or { font-size: 11px; letter-spacing: .2em; text-transform: uppercase; opacity: .45; margin-top: 18px; }
-  .note { font-size: 15px; color: #fff; opacity: .95; margin-top: 10px; max-width: 320px;
+  body.inapp .btn.go { border-color: rgba(255,255,255,.22); background: rgba(255,255,255,.06);
+                       box-shadow: none; font-weight: 600; opacity: .8; }
+  .or { font-size: 11px; letter-spacing: .2em; text-transform: uppercase; opacity: .45; margin-top: 12px; }
+  .note { font-size: 15px; color: #fff; opacity: .95; max-width: 320px;
           line-height: 1.7; font-weight: 500; }
   .note b { color: #28e0ff; font-weight: 700; letter-spacing: .02em; }
-  .award { margin: 16px auto 22px; text-align: center; }
-.award img { max-width: 100%; height: auto; display: inline-block; }
-.awardText {
-  margin: 0; color: #ffd479; letter-spacing: .02em;
-  font: 600 15px/1.4 -apple-system, system-ui, sans-serif;
-}
 </style>
 </head>
 <body>
-  <h1>GRAZE</h1>
-  <div class="sub">EDGE RUSH</div>
-  <!-- PixelPicked #1 Launch Week -->
-<div class="award">
-  <img src="https://api.pixelpicked.com/api/badges/3aPZlUnoF71/rank/1/live.png?week=July+Week+4"
-       width="250" height="54"
-       alt="#1 Game Launch of the Week, PixelPicked"
-       onerror="this.replaceWith(Object.assign(document.createElement('p'),{className:'awardText',textContent:'#1 Game Launch of the Week · PixelPicked'}))">
-</div>
-  <div class="card" id="card" style="display:none">
-    <h2>One quick step</h2>
-    <p>Tap <b>&#8943;</b> at the top right, then <b>&ldquo;Open in external browser&rdquo;</b>.<br>
-       Instagram blocks App Store links inside its own browser.</p>
+
+  <!-- Shown only inside TikTok / Instagram / Facebook webviews -->
+  <div id="steps">
+    <div class="arrow">tap up here <span>&#8599;</span></div>
+    <div class="steps">
+      <h2>Two taps to install</h2>
+      <p class="why" id="why">This app&rsquo;s built-in browser can&rsquo;t open the App Store.</p>
+      <ol>
+        <li><span class="num">1</span><div>Tap <span class="dots">&#8943;</span> in the <b>top right corner</b> of this screen</div></li>
+        <li><span class="num">2</span><div>Choose <b id="menuLabel">Open in browser</b></div></li>
+      </ol>
+      <p class="after">The App Store opens on its own. That&rsquo;s it.</p>
+    </div>
+  </div>
+
+  <div id="hero">
+    <h1>GRAZE</h1>
+    <div class="sub">EDGE RUSH</div>
+    <div class="award">
+      <img src="https://api.pixelpicked.com/api/badges/3aPZlUnoF71/rank/1/live.png?week=July+Week+4"
+           width="250" height="54"
+           alt="#1 Game Launch of the Week, PixelPicked"
+           onerror="this.replaceWith(Object.assign(document.createElement('p'),{className:'awardText',textContent:'#1 Game Launch of the Week · PixelPicked'}))">
+    </div>
   </div>
 
   <a class="btn go" id="primary" href="https://apps.apple.com/app/id6785326186">Open in the App Store</a>
   <button class="btn" id="copy">Copy the link</button>
 
   <div class="or">or</div>
-  <p class="note">Search <b>GRAZE Edge Rush</b> in the App Store. It's free.</p>
+  <p class="note">Search <b>GRAZE Edge Rush</b> in the App Store. It&rsquo;s free.</p>
 
 <script>
 (function () {
   var ID = "6785326186";
   var HTTPS = "https://apps.apple.com/app/id" + ID;
   var ua = navigator.userAgent || "";
+
   var isIOS = /iPhone|iPad|iPod/i.test(ua);
-  var isInApp = /Instagram|FBAN|FBAV|FB_IAB|FBIOS|TikTok|Snapchat|Line\//i.test(ua);
+  // TikTok's iOS webview does not always say "TikTok": it reports musical_ly,
+  // BytedanceWebview or Trill depending on version and region, so match all.
+  var isTikTok    = /TikTok|musical_ly|BytedanceWebview|Trill|ByteLocale/i.test(ua);
+  var isInstagram = /Instagram/i.test(ua);
+  var isFacebook  = /FBAN|FBAV|FB_IAB|FBIOS/i.test(ua);
+  var isOtherApp  = /Snapchat|Line\/|Twitter|Pinterest|LinkedInApp/i.test(ua);
+  var isInApp     = isTikTok || isInstagram || isFacebook || isOtherApp;
 
   if (isInApp) {
-    // Meta's webview sandboxes custom URL schemes, so the only dependable path
-    // is getting the user out of it. Lead with that instruction instead of
-    // auto-navigating, which just lands them on a blank App Store page.
-    document.getElementById("card").style.display = "block";
-  } else if (isIOS) {
-    setTimeout(function () { window.location.href = HTTPS; }, 300);
+    // These webviews sandbox App Store links, so navigating just lands the
+    // visitor on a blank page. Getting them out of the webview is the only
+    // dependable path, so lead with that instead of auto-redirecting.
+    document.body.className = "inapp";
+    var why = document.getElementById("why");
+    var menu = document.getElementById("menuLabel");
+    if (isTikTok) {
+      why.innerHTML = "TikTok&rsquo;s built-in browser can&rsquo;t open the App Store.";
+      menu.textContent = "Open in browser";
+    } else if (isInstagram) {
+      why.innerHTML = "Instagram&rsquo;s built-in browser can&rsquo;t open the App Store.";
+      menu.textContent = "Open in external browser";
+    } else if (isFacebook) {
+      why.innerHTML = "Facebook&rsquo;s built-in browser can&rsquo;t open the App Store.";
+      menu.textContent = "Open in external browser";
+    }
+    // The App Store button is likely to fail in here, so stop promising it.
+    document.getElementById("primary").textContent = "Try the App Store anyway";
   } else {
-    setTimeout(function () { window.location.href = HTTPS; }, 500);
+    setTimeout(function () { window.location.href = HTTPS; }, isIOS ? 300 : 500);
   }
 
   document.getElementById("copy").addEventListener("click", function () {
     var btn = this;
-    var done = function () { btn.textContent = "Link copied ✓"; setTimeout(function(){ btn.textContent = "Copy the link"; }, 2000); };
+    var done = function () {
+      btn.textContent = "Link copied ✓";
+      setTimeout(function () { btn.textContent = "Copy the link"; }, 2000);
+    };
     if (navigator.clipboard && navigator.clipboard.writeText) {
       navigator.clipboard.writeText(HTTPS).then(done, done);
     } else {
