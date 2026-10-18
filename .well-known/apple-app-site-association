@@ -1,0 +1,10 @@
+{
+  "applinks": {
+    "details": [
+      {
+        "appIDs": ["FH6Y8LG6ZN.com.kbraccia.graze"],
+        "components": [{ "/": "/c/*", "comment": "challenge links open GRAZE" }]
+      }
+    ]
+  }
+}
