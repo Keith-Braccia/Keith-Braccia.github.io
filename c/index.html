@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Race My Ghost in GRAZE</title>
+<meta name="description" content="A friend challenged you to beat their score in GRAZE: Edge Rush. Race their ghost on the same course.">
+<meta property="og:title" content="Race My Ghost in GRAZE">
+<meta property="og:description" content="Beat my score on the same course. Free on the App Store.">
+<meta name="apple-itunes-app" content="app-id=6785326186">
+<style>
+  :root { color-scheme: dark; }
+  body { margin: 0; min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 24px 16px; box-sizing: border-box;
+    background: radial-gradient(circle at 50% 30%, #0b2a3a, #01060a 70%); color: #fff; font-family: ui-monospace, "SF Mono", Menlo, monospace; text-align: center; }
+  .card { max-width: 340px; width: 100%; padding: 28px 20px; border-radius: 18px; border: 1px solid rgba(255,211,106,.35); background: rgba(10,22,32,.95); }
+  h1 { font-size: 44px; letter-spacing: .12em; margin: 0; text-shadow: 0 0 22px rgba(40,224,255,.7); }
+  .sub { letter-spacing: .3em; font-size: 11px; opacity: .7; margin-bottom: 22px; }
+  .from { font-size: 16px; }
+  .score { font-size: 44px; font-weight: 700; color: #ffd36a; margin: 6px 0 22px; text-shadow: 0 0 18px rgba(255,211,106,.5); }
+  a.btn { display: block; padding: 15px; margin-top: 10px; border-radius: 999px; text-decoration: none; font-weight: 700; letter-spacing: .08em; }
+  .race { background: #ffd36a; color: #111; }
+  .get { background: rgba(6,26,38,.9); color: #28e0ff; border: 1px solid rgba(40,224,255,.45); }
+  .note { font-size: 11px; opacity: .6; margin-top: 16px; line-height: 1.5; }
+</style>
+</head>
+<body>
+<div class="card">
+  <h1>GRAZE</h1>
+  <div class="sub">EDGE RUSH</div>
+  <div class="from" id="from">You've been challenged to beat</div>
+  <div class="score" id="score">a high score</div>
+  <a class="btn race" id="race" href="#">Race Their Ghost</a>
+  <a class="btn get" id="get" href="https://apps.apple.com/app/id6785326186">Get GRAZE Free</a>
+  <div class="note">New to GRAZE? Tap Get GRAZE Free. The race is waiting when you first open the game.</div>
+</div>
+<script>
+  // The run travels in the link's hash, which never reaches a server.
+  var data = location.hash.slice(1);
+  try {
+    var head = JSON.parse(atob(data.split(".")[0].replace(/-/g, "+").replace(/_/g, "/")));
+    var n = String(head.n || "").toUpperCase().replace(/[^A-Z0-9]/g, "").slice(0, 6);
+    if (n) document.getElementById("from").textContent = n + " challenged you to beat";
+    if (head.sc > 0) document.getElementById("score").textContent = Math.floor(head.sc).toLocaleString();
+  } catch (e) {}
+  // No automatic jump into the app: without the game installed, Safari
+  // answers that with an "address is invalid" alert.
+  document.getElementById("race").href = "grazeedgerush://c#" + data;
+  // iOS forgets this link across an App Store install, so it rides along on
+  // the clipboard. The game checks for it once, on its first launch.
+  document.getElementById("get").addEventListener("click", function (e) {
+    if (!data || !navigator.clipboard) return;
+    e.preventDefault();
+    var href = this.href, go = function () { location.href = href; };
+    navigator.clipboard.writeText(location.href).then(go, go);
+  });
+</script>
+</body>
+</html>
